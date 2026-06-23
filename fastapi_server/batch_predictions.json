@@ -1,0 +1,838 @@
+[
+  {
+    "filename": "1.jpg",
+    "status": "success",
+    "geojson": {
+      "type": "FeatureCollection",
+      "crs": {
+        "type": "name",
+        "properties": {
+          "name": "EPSG:4326"
+        }
+      },
+      "features": [
+        {
+          "type": "Feature",
+          "id": 0,
+          "properties": {
+            "index": 0,
+            "area": 448.0,
+            "perimeter": 221.7401144504547,
+            "bbox": {
+              "x": 909,
+              "y": 660,
+              "width": 103,
+              "height": 21
+            },
+            "image_dimensions": {
+              "width": 1920,
+              "height": 915
+            }
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  909.0,
+                  664.0
+                ],
+                [
+                  926.0,
+                  670.0
+                ],
+                [
+                  957.0,
+                  671.0
+                ],
+                [
+                  967.0,
+                  675.0
+                ],
+                [
+                  1011.0,
+                  679.0
+                ],
+                [
+                  944.0,
+                  664.0
+                ],
+                [
+                  914.0,
+                  660.0
+                ],
+                [
+                  909.0,
+                  664.0
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 1,
+          "properties": {
+            "index": 1,
+            "area": 184.0,
+            "perimeter": 93.79898953437805,
+            "bbox": {
+              "x": 1056,
+              "y": 616,
+              "width": 45,
+              "height": 8
+            },
+            "image_dimensions": {
+              "width": 1920,
+              "height": 915
+            }
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  1056.0,
+                  617.0
+                ],
+                [
+                  1079.0,
+                  623.0
+                ],
+                [
+                  1100.0,
+                  622.0
+                ],
+                [
+                  1084.0,
+                  616.0
+                ],
+                [
+                  1056.0,
+                  617.0
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 2,
+          "properties": {
+            "index": 2,
+            "area": 246.5,
+            "perimeter": 112.04163014888763,
+            "bbox": {
+              "x": 931,
+              "y": 597,
+              "width": 53,
+              "height": 10
+            },
+            "image_dimensions": {
+              "width": 1920,
+              "height": 915
+            }
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  931.0,
+                  598.0
+                ],
+                [
+                  939.0,
+                  603.0
+                ],
+                [
+                  967.0,
+                  606.0
+                ],
+                [
+                  980.0,
+                  606.0
+                ],
+                [
+                  983.0,
+                  604.0
+                ],
+                [
+                  949.0,
+                  597.0
+                ],
+                [
+                  931.0,
+                  598.0
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 3,
+          "properties": {
+            "index": 3,
+            "area": 588.0,
+            "perimeter": 220.56854152679443,
+            "bbox": {
+              "x": 1406,
+              "y": 478,
+              "width": 102,
+              "height": 22
+            },
+            "image_dimensions": {
+              "width": 1920,
+              "height": 915
+            }
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  1406.0,
+                  478.0
+                ],
+                [
+                  1417.0,
+                  484.0
+                ],
+                [
+                  1476.0,
+                  497.0
+                ],
+                [
+                  1507.0,
+                  498.0
+                ],
+                [
+                  1499.0,
+                  492.0
+                ],
+                [
+                  1406.0,
+                  478.0
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 4,
+          "properties": {
+            "index": 4,
+            "area": 104.0,
+            "perimeter": 42.97056245803833,
+            "bbox": {
+              "x": 768,
+              "y": 472,
+              "width": 12,
+              "height": 14
+            },
+            "image_dimensions": {
+              "width": 1920,
+              "height": 915
+            }
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  773.0,
+                  472.0
+                ],
+                [
+                  772.0,
+                  473.0
+                ],
+                [
+                  770.0,
+                  473.0
+                ],
+                [
+                  769.0,
+                  474.0
+                ],
+                [
+                  769.0,
+                  481.0
+                ],
+                [
+                  768.0,
+                  482.0
+                ],
+                [
+                  768.0,
+                  483.0
+                ],
+                [
+                  769.0,
+                  484.0
+                ],
+                [
+                  771.0,
+                  484.0
+                ],
+                [
+                  772.0,
+                  485.0
+                ],
+                [
+                  775.0,
+                  485.0
+                ],
+                [
+                  776.0,
+                  484.0
+                ],
+                [
+                  778.0,
+                  484.0
+                ],
+                [
+                  779.0,
+                  483.0
+                ],
+                [
+                  779.0,
+                  481.0
+                ],
+                [
+                  777.0,
+                  479.0
+                ],
+                [
+                  777.0,
+                  475.0
+                ],
+                [
+                  778.0,
+                  474.0
+                ],
+                [
+                  777.0,
+                  473.0
+                ],
+                [
+                  775.0,
+                  473.0
+                ],
+                [
+                  774.0,
+                  472.0
+                ],
+                [
+                  773.0,
+                  472.0
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 5,
+          "properties": {
+            "index": 5,
+            "area": 140.5,
+            "perimeter": 181.0710676908493,
+            "bbox": {
+              "x": 0,
+              "y": 462,
+              "width": 3,
+              "height": 90
+            },
+            "image_dimensions": {
+              "width": 1920,
+              "height": 915
+            }
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  1.0,
+                  462.0
+                ],
+                [
+                  0.0,
+                  551.0
+                ],
+                [
+                  2.0,
+                  535.0
+                ],
+                [
+                  1.0,
+                  462.0
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 6,
+          "properties": {
+            "index": 6,
+            "area": 301.5,
+            "perimeter": 81.35533833503723,
+            "bbox": {
+              "x": 878,
+              "y": 224,
+              "width": 17,
+              "height": 32
+            },
+            "image_dimensions": {
+              "width": 1920,
+              "height": 915
+            }
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  893.0,
+                  224.0
+                ],
+                [
+                  889.0,
+                  227.0
+                ],
+                [
+                  883.0,
+                  229.0
+                ],
+                [
+                  878.0,
+                  234.0
+                ],
+                [
+                  879.0,
+                  237.0
+                ],
+                [
+                  878.0,
+                  245.0
+                ],
+                [
+                  880.0,
+                  253.0
+                ],
+                [
+                  882.0,
+                  255.0
+                ],
+                [
+                  887.0,
+                  254.0
+                ],
+                [
+                  888.0,
+                  244.0
+                ],
+                [
+                  893.0,
+                  237.0
+                ],
+                [
+                  893.0,
+                  229.0
+                ],
+                [
+                  894.0,
+                  228.0
+                ],
+                [
+                  893.0,
+                  224.0
+                ]
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    "num_contours": 7,
+    "dimensions": {
+      "width": 1920,
+      "height": 915
+    }
+  },
+  {
+    "filename": "10.jpg",
+    "status": "success",
+    "geojson": {
+      "type": "FeatureCollection",
+      "crs": {
+        "type": "name",
+        "properties": {
+          "name": "EPSG:4326"
+        }
+      },
+      "features": [
+        {
+          "type": "Feature",
+          "id": 0,
+          "properties": {
+            "index": 0,
+            "area": 130.0,
+            "perimeter": 753.6568541526794,
+            "bbox": {
+              "x": 958,
+              "y": 913,
+              "width": 377,
+              "height": 2
+            },
+            "image_dimensions": {
+              "width": 1920,
+              "height": 915
+            }
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  958.0,
+                  914.0
+                ],
+                [
+                  1334.0,
+                  914.0
+                ],
+                [
+                  958.0,
+                  914.0
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 1,
+          "properties": {
+            "index": 1,
+            "area": 125.0,
+            "perimeter": 102.62741649150848,
+            "bbox": {
+              "x": 535,
+              "y": 99,
+              "width": 49,
+              "height": 9
+            },
+            "image_dimensions": {
+              "width": 1920,
+              "height": 915
+            }
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  535.0,
+                  100.0
+                ],
+                [
+                  572.0,
+                  107.0
+                ],
+                [
+                  583.0,
+                  106.0
+                ],
+                [
+                  569.0,
+                  104.0
+                ],
+                [
+                  564.0,
+                  100.0
+                ],
+                [
+                  535.0,
+                  100.0
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 2,
+          "properties": {
+            "index": 2,
+            "area": 111.0,
+            "perimeter": 86.14213538169861,
+            "bbox": {
+              "x": 0,
+              "y": 79,
+              "width": 6,
+              "height": 41
+            },
+            "image_dimensions": {
+              "width": 1920,
+              "height": 915
+            }
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  0.0,
+                  79.0
+                ],
+                [
+                  0.0,
+                  119.0
+                ],
+                [
+                  1.0,
+                  119.0
+                ],
+                [
+                  2.0,
+                  116.0
+                ],
+                [
+                  1.0,
+                  104.0
+                ],
+                [
+                  4.0,
+                  97.0
+                ],
+                [
+                  5.0,
+                  85.0
+                ],
+                [
+                  3.0,
+                  81.0
+                ],
+                [
+                  0.0,
+                  79.0
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 3,
+          "properties": {
+            "index": 3,
+            "area": 114.0,
+            "perimeter": 217.65685415267944,
+            "bbox": {
+              "x": 1364,
+              "y": 0,
+              "width": 109,
+              "height": 3
+            },
+            "image_dimensions": {
+              "width": 1920,
+              "height": 915
+            }
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  1364.0,
+                  0.0
+                ],
+                [
+                  1472.0,
+                  0.0
+                ],
+                [
+                  1364.0,
+                  0.0
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 4,
+          "properties": {
+            "index": 4,
+            "area": 132.0,
+            "perimeter": 199.65685415267944,
+            "bbox": {
+              "x": 146,
+              "y": 0,
+              "width": 100,
+              "height": 3
+            },
+            "image_dimensions": {
+              "width": 1920,
+              "height": 915
+            }
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  146.0,
+                  0.0
+                ],
+                [
+                  160.0,
+                  2.0
+                ],
+                [
+                  245.0,
+                  0.0
+                ],
+                [
+                  146.0,
+                  0.0
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 5,
+          "properties": {
+            "index": 5,
+            "area": 172.0,
+            "perimeter": 156.62741661071777,
+            "bbox": {
+              "x": 0,
+              "y": 0,
+              "width": 6,
+              "height": 74
+            },
+            "image_dimensions": {
+              "width": 1920,
+              "height": 915
+            }
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  3.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.0,
+                  73.0
+                ],
+                [
+                  4.0,
+                  67.0
+                ],
+                [
+                  2.0,
+                  55.0
+                ],
+                [
+                  5.0,
+                  49.0
+                ],
+                [
+                  1.0,
+                  40.0
+                ],
+                [
+                  3.0,
+                  0.0
+                ]
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    "num_contours": 6,
+    "dimensions": {
+      "width": 1920,
+      "height": 915
+    }
+  },
+  {
+    "filename": "100.jpg",
+    "status": "success",
+    "geojson": {
+      "type": "FeatureCollection",
+      "crs": {
+        "type": "name",
+        "properties": {
+          "name": "EPSG:4326"
+        }
+      },
+      "features": [
+        {
+          "type": "Feature",
+          "id": 0,
+          "properties": {
+            "index": 0,
+            "area": 105.0,
+            "perimeter": 137.3137083053589,
+            "bbox": {
+              "x": 0,
+              "y": 349,
+              "width": 4,
+              "height": 68
+            },
+            "image_dimensions": {
+              "width": 1920,
+              "height": 915
+            }
+          },
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  0.0,
+                  349.0
+                ],
+                [
+                  0.0,
+                  416.0
+                ],
+                [
+                  3.0,
+                  392.0
+                ],
+                [
+                  0.0,
+                  349.0
+                ]
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    "num_contours": 1,
+    "dimensions": {
+      "width": 1920,
+      "height": 915
+    }
+  }
+]
