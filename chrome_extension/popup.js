@@ -129,24 +129,46 @@ async function getMapStateViaScripting(tabId) {
 
     function getMapRect() {
       const canvasCandidates = Array.from(document.querySelectorAll('canvas'))
-        .map(canvas => ({
-          canvas,
-          rect: canvas.getBoundingClientRect()
-        }))
-        .filter(entry => entry.rect.width > 200 && entry.rect.height > 200);
-
+          .map(canvas => ({
+              canvas,
+              rect: canvas.getBoundingClientRect()
+          }))
+          .filter(entry => entry.rect.width > 200 && entry.rect.height > 200);
+  
       if (canvasCandidates.length) {
-        const best = canvasCandidates.reduce((prev, curr) => {
-          const prevArea = prev.rect.width * prev.rect.height;
-          const currArea = curr.rect.width * curr.rect.height;
-          return currArea > prevArea ? curr : prev;
-        });
-        return best.rect;
+          const best = canvasCandidates.reduce((prev, curr) => {
+              const prevArea = prev.rect.width * prev.rect.height;
+              const currArea = curr.rect.width * curr.rect.height;
+              return currArea > prevArea ? curr : prev;
+          });
+  
+          const rect = best.rect;
+  
+          // ── NEW: detect and exclude left sidebar ──────────
+          // Google Maps sidebar is always a nav element on the left
+          const sidebar = document.querySelector(
+              '[class*="app-vertical-widget"], [class*="sidenav"], nav'
+          );
+          const sidebarWidth = sidebar
+              ? Math.ceil(sidebar.getBoundingClientRect().right)
+              : 80; // fallback — sidebar is ~80px
+  
+          return {
+              left: sidebarWidth,
+              top: rect.top,
+              width: rect.width - sidebarWidth,
+              height: rect.height
+          };
       }
-
-      const scene = document.querySelector('body');
-      return scene ? scene.getBoundingClientRect() : { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight };
-    }
+  
+      const sidebarWidth = 80;
+      return {
+          left: sidebarWidth,
+          top: 0,
+          width: window.innerWidth - sidebarWidth,
+          height: window.innerHeight
+      };
+  }
 
     function lonToPixel(lon, zoom) {
       const x = (lon + 180) / 360;
@@ -181,15 +203,28 @@ async function getMapStateViaScripting(tabId) {
     }
 
     const { lat, lng, zoom } = centerZoom;
+
+    // Use CSS pixel dimensions for bounds calculation
+    // because lonToPixel/latToPixel work in CSS pixel world space
     const centerX = lonToPixel(lng, zoom);
     const centerY = latToPixel(lat, zoom);
+    
+    // mapRect.width/height are in CSS pixels — correct for bounds
     const halfWidth = mapRect.width / 2;
     const halfHeight = mapRect.height / 2;
     const nwX = centerX - halfWidth;
     const nwY = centerY - halfHeight;
     const seX = centerX + halfWidth;
     const seY = centerY + halfHeight;
-
+    
+    // DPR for physical pixel crop dimensions
+    const dpr = window.devicePixelRatio || 1;
+    
+    // Physical pixel dimensions of the map area
+    // These must match what captureVisibleTab actually captures
+    const physicalWidth = Math.round(mapRect.width * dpr);
+    const physicalHeight = Math.round(mapRect.height * dpr);
+    
     return {
       success: true,
       url,
@@ -201,13 +236,17 @@ async function getMapStateViaScripting(tabId) {
         south: pixelToLat(seY, zoom),
         east: pixelToLon(seX, zoom)
       },
+      // mapRect in CSS pixels — used for overlay drawing
       mapRect: {
         left: mapRect.left,
         top: mapRect.top,
         width: mapRect.width,
         height: mapRect.height
       },
-      devicePixelRatio: window.devicePixelRatio || 1,
+      // Physical pixel dimensions — used for crop and sent to FastAPI
+      physicalWidth,
+      physicalHeight,
+      devicePixelRatio: dpr,
       pageTitle: document.title
     };
   });
@@ -251,11 +290,23 @@ async function drawOverlayViaScripting(tabId, geojson, mapRect, bounds) {
     ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
     ctx.clearRect(0, 0, rectWidth, rectHeight);
 
+    function latToMercatorY(lat) {
+      const latRad = (lat * Math.PI) / 180;
+      return Math.log(Math.tan(Math.PI / 4 + latRad / 2));
+    }
+    
+    const northY = latToMercatorY(geoBounds.north);
+    const southY = latToMercatorY(geoBounds.south);
+    
     function projectPoint(lng, lat) {
-      return {
-        x: ((lng - geoBounds.west) / (geoBounds.east - geoBounds.west)) * rectWidth,
-        y: ((geoBounds.north - lat) / (geoBounds.north - geoBounds.south)) * rectHeight
-      };
+      // Longitude is linear
+      const x = ((lng - geoBounds.west) / (geoBounds.east - geoBounds.west)) * rectWidth;
+    
+      // Latitude uses Mercator to match Google Maps tiles exactly
+      const mercY = latToMercatorY(lat);
+      const y = ((northY - mercY) / (northY - southY)) * rectHeight;
+    
+      return { x, y };
     }
 
     geojsonData.features.forEach(feature => {
@@ -321,17 +372,23 @@ async function captureTileAndDetect() {
     let imageHeight = imageBitmap.height;
 
     if (mapState.mapRect && mapState.mapRect.width > 0 && mapState.mapRect.height > 0) {
+      const dpr = mapState.devicePixelRatio || 1;
       const sx = Math.round(mapState.mapRect.left * dpr);
       const sy = Math.round(mapState.mapRect.top * dpr);
-      const sw = Math.round(mapState.mapRect.width * dpr);
-      const sh = Math.round(mapState.mapRect.height * dpr);
-
+    
+      // Use pre-calculated physical dimensions
+      const sw = mapState.physicalWidth;
+      const sh = mapState.physicalHeight;
+    
       const canvas = document.createElement('canvas');
       canvas.width = sw;
       canvas.height = sh;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(imageBitmap, sx, sy, sw, sh, 0, 0, sw, sh);
       cropBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    
+      // Send physical pixel dimensions to FastAPI
+      // so pixel_to_geo divides by the correct size
       imageWidth = sw;
       imageHeight = sh;
     }

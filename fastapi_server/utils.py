@@ -55,12 +55,13 @@ def draw_contours_overlay(image: np.ndarray, contours: List[np.ndarray], color=(
     return overlay
 
 
+# Change these parameters
 def boundary_mask_to_field_regions(
     boundary_mask: np.ndarray,
-    kernel_size: int = 9,
-    closing_iterations: int = 2,
+    kernel_size: int = 13,        # was 9 — bigger kernel closes more gaps
+    closing_iterations: int = 3,  # was 2 — more closing
     opening_iterations: int = 1,
-    dilation_iterations: int = 2,
+    dilation_iterations: int = 3, # was 2 — more dilation
     min_area: int = 500
 ) -> np.ndarray:
     """
@@ -337,28 +338,32 @@ def pixel_to_geo(
 ) -> tuple:
     """
     Convert pixel coordinates to geographic coordinates
-    
-    Parameters:
-    - pixel_x, pixel_y: Pixel coordinates
-    - image_width, image_height: Image dimensions
-    - bounds: {"north": lat, "south": lat, "east": lon, "west": lon}
-    
-    Returns:
-    - (longitude, latitude)
+    using Web Mercator projection to match Google Maps exactly.
     """
-    
     try:
-        # Normalize to 0-1
+        # Longitude is linear — safe to interpolate directly
         norm_x = pixel_x / image_width
-        norm_y = pixel_y / image_height
-        
-        # Map to geographic bounds
-        # Note: Y-axis is inverted in images
         lon = bounds["west"] + norm_x * (bounds["east"] - bounds["west"])
-        lat = bounds["north"] - norm_y * (bounds["north"] - bounds["south"])
-        
+
+        # Latitude is NOT linear on Mercator maps
+        # Must convert bounds to Mercator Y, interpolate, then convert back
+
+        def lat_to_mercator_y(lat_deg):
+            lat_rad = np.radians(lat_deg)
+            return np.log(np.tan(np.pi / 4 + lat_rad / 2))
+
+        def mercator_y_to_lat(y):
+            return np.degrees(2 * np.arctan(np.exp(y)) - np.pi / 2)
+
+        north_y = lat_to_mercator_y(bounds["north"])
+        south_y = lat_to_mercator_y(bounds["south"])
+
+        norm_y = pixel_y / image_height
+        mercator_y = north_y - norm_y * (north_y - south_y)
+        lat = mercator_y_to_lat(mercator_y)
+
         return (lon, lat)
-    
+
     except Exception as e:
         logger.error(f"Pixel to geo conversion error: {e}")
         return (0.0, 0.0)

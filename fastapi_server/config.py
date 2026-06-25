@@ -3,9 +3,13 @@
 # ============================================================
 
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
+
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+_DEFAULT_MODEL = _PROJECT_ROOT / "boundary_unetpp_b3_v2.onnx"
 
 # ============================================================
 # SERVER SETTINGS
@@ -19,10 +23,7 @@ DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 # MODEL SETTINGS
 # ============================================================
 
-ONNX_MODEL_PATH = os.getenv(
-    "ONNX_MODEL_PATH",
-    r"D:\farmland boundary\boundary_unetpp_b3_v2.onnx"
-)
+ONNX_MODEL_PATH = os.getenv("ONNX_MODEL_PATH", str(_DEFAULT_MODEL))
 
 DEFAULT_THRESHOLD = float(os.getenv("DEFAULT_THRESHOLD", 0.25))
 DEFAULT_MIN_AREA = int(os.getenv("DEFAULT_MIN_AREA", 100))
@@ -31,10 +32,12 @@ DEFAULT_MIN_AREA = int(os.getenv("DEFAULT_MIN_AREA", 100))
 # INFERENCE SETTINGS
 # ============================================================
 
-INFERENCE_PROVIDERS = os.getenv(
-    "INFERENCE_PROVIDERS",
+_DEFAULT_PROVIDERS = (
     "CUDAExecutionProvider,CPUExecutionProvider"
-).split(",")
+    if os.getenv("USE_GPU", "").lower() in ("1", "true", "yes")
+    else "CPUExecutionProvider"
+)
+INFERENCE_PROVIDERS = os.getenv("INFERENCE_PROVIDERS", _DEFAULT_PROVIDERS).split(",")
 
 # ============================================================
 # IMAGE SETTINGS
