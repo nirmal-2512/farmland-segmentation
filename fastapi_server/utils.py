@@ -54,27 +54,20 @@ def draw_contours_overlay(image: np.ndarray, contours: List[np.ndarray], color=(
     cv2.drawContours(overlay, contours, -1, color, thickness)
     return overlay
 
-
-# Change these parameters
 def boundary_mask_to_field_regions(
     boundary_mask: np.ndarray,
-    kernel_size: int = 13,        # was 9 — bigger kernel closes more gaps
-    closing_iterations: int = 3,  # was 2 — more closing
+    kernel_size: int = 3,         # was 13 — much smaller for thin boundaries
+    closing_iterations: int = 2,  # was 3
     opening_iterations: int = 1,
-    dilation_iterations: int = 3, # was 2 — more dilation
+    dilation_iterations: int = 2, # was 3
     min_area: int = 500
 ) -> np.ndarray:
     """
     Convert a boundary line mask into a field region mask.
-
-    Steps:
-    - Clean boundary lines
-    - Dilate and close gaps
-    - Invert boundaries to get region interiors
-    - Flood fill the outer background
-    - Remove the outside region
-    - Filter small interior regions
+    Tuned for thin boundary lines (< 5% white pixel coverage).
     """
+
+    # Step 1 — Clean boundary lines
     cleaned = clean_boundary_mask(
         boundary_mask,
         kernel_size=kernel_size,
@@ -83,22 +76,32 @@ def boundary_mask_to_field_regions(
         min_area=min_area
     )
 
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (kernel_size, kernel_size))
+    # Step 2 — Dilate just enough to close small gaps
+    kernel = cv2.getStructuringElement(
+        cv2.MORPH_RECT, (kernel_size, kernel_size)
+    )
     dilated = cv2.dilate(cleaned, kernel, iterations=dilation_iterations)
 
+    # Step 3 — Invert: boundaries become black, field interiors become white
     inverted = cv2.bitwise_not(dilated)
+
+    # Step 4 — Remove image border regions
+    border_mask = np.zeros_like(inverted)
+    border_mask[1:-1, 1:-1] = 255
+    inverted = cv2.bitwise_and(inverted, border_mask)
+
+    # Step 5 — Connected component filtering
     h, w = inverted.shape[:2]
-    flood_filled = inverted.copy()
-    mask_ff = np.zeros((h + 2, w + 2), np.uint8)
-    cv2.floodFill(flood_filled, mask_ff, (0, 0), 0)
+    max_area = h * w * 0.95
 
-    field_mask = cv2.bitwise_and(inverted, flood_filled)
+    num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(
+        inverted, connectivity=8
+    )
 
-    num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(field_mask, connectivity=8)
-    output = np.zeros_like(field_mask)
+    output = np.zeros_like(inverted)
     for label in range(1, num_labels):
         area = stats[label, cv2.CC_STAT_AREA]
-        if area >= min_area:
+        if min_area <= area <= max_area:
             output[labels == label] = 255
 
     return output
